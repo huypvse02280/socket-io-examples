@@ -1,0 +1,16 @@
+{
+  "name": "socket-io-getting-started-demo",
+  "version": "0.0.0",
+  "description": "Simple socket io demo",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": "",
+  "author": "Tyson Cadenhead",
+  "license": "BSD",
+  "dependencies": {
+    "socket.io": "latest"
+  }
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <style type="text/css">
+        body {
+          background: #FFFFFF;
+        }
+      </style>
+    </head>
+    <body>
+        <p><a id="send-message" href="#">Send a message</a></p>
+        <div id="messages"></div>
+        <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+          var socket = io.connect('http://localhost:4000');
+
+          $(function () {
+            $('#send-message').bind('click', function () {
+              socket.emit('msg', { sent: new Date() });
+              return false;
+            });
+          });
+
+          socket.on('msg-received', function (data) {
+            data.sent = new Date(data.sent);
+            if (data.lastMessageSent) {
+              data.lastMessageSent = new Date(data.lastMessageSent);
+            }
+            $('#messages').append('<p>message received at ' + data.sent.getMinutes() + ':' + data.sent.getSeconds() + ((data.lastMessageSent) ? '. Last message sent at ' + data.lastMessageSent.getMinutes() + ':' + data.lastMessageSent.getSeconds() : '') + '</p>')
+          });
+        </script>
+    </body>
+</html>

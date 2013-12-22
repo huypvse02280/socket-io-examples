@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <style type="text/css">
+        body {
+          background: #FFFFFF;
+        }
+      </style>
+    </head>
+    <body>
+        <form action="#">
+          <p><input id="age" placeholder="Age" /></p>
+          <input type="submit" value="Submit" />
+        </form>
+        <div id="messages"></div>
+        <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+          var socket = io.connect('http://localhost:4000');
+
+          $(function () {
+            $('form').bind('submit', function (e) {
+              e.preventDefault();
+              socket.emit('get-age-in-dog-years', {
+                age: $('#age').val()
+              }, function (age) {
+                $('#messages').html('<p>You are ' + age + ' in dog years</p>');
+              });
+            });
+          });
+        </script>
+    </body>
+</html>

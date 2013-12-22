@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <style type="text/css">
+        body {
+          background: #FFFFFF;
+        }
+      </style>
+    </head>
+    <body>
+
+      <h1>Dog</h1>
+      <div>
+        <a href="#" id="dog-bark">Bark</a> | <a href="#" id="dog-jump">Jump</a>
+      </div>
+      <div id="dog"></div>
+
+      <h1>Chicken</h1>
+      <div>
+        <a href="#" id="chicken-cluck">Cluck</a> | <a href="#" id="chicken-jump">Jump</a>
+      </div>
+      <div id="chicken"></div>
+
+      <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+      <script src="/socket.io/socket.io.js"></script>
+      <script>
+        var chicken = io.connect('http://localhost:4000/chicken'),
+            dog = io.connect('http://localhost:4000/dog');
+
+        // Events
+
+        $('#chicken-cluck').bind('click', function () {
+          chicken.emit('do-action', { action: 'cluck' });
+          return false;
+        });
+
+        $('#chicken-jump').bind('click', function () {
+          chicken.emit('do-action', { action: 'jump' });
+          return false;
+        });
+
+        $('#dog-bark').bind('click', function () {
+          dog.emit('do-action', { action: 'bark' });
+          return false;
+        });
+
+        $('#dog-jump').bind('click', function () {
+          dog.emit('do-action', { action: 'jump' });
+          return false;
+        });
+
+        // Listeners
+
+        chicken.on('cluck', function (msg) {
+          $('#chicken').append('<p>' + msg + '</p>');
+        });
+
+        chicken.on('jump', function (msg) {
+          $('#chicken').append('<p>' + msg + '</p>');
+        });
+
+        dog.on('bark', function (msg) {
+          $('#dog').append('<p>' + msg + '</p>');
+        });
+
+        dog.on('jump', function (msg) {
+          $('#dog').append('<p>' + msg + '</p>');
+        });
+        
+      </script>
+    </body>
+</html>
